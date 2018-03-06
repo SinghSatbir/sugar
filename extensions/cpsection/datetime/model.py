@@ -88,15 +88,20 @@ def set_timezone(timezone):
     """Set the system timezone
     timezone : e.g. 'America/Los_Angeles'
     """
-    timezones = read_all_timezones()
-    if timezone in timezones:
-        if timezone.startswith('UTC'):
-            timezone = fix_UTC_time_zone(timezone)
-        os.environ['TZ'] = timezone
-        settings = Gio.Settings('org.sugarlabs.date')
-        settings.set_string('timezone', timezone)
+    if timezone:
+        timezones = read_all_timezones()
+        if timezone in timezones:
+            if timezone.startswith('UTC'):
+                timezone = fix_UTC_time_zone(timezone)
+            os.environ['TZ'] = timezone
+            settings = Gio.Settings('org.sugarlabs.date')
+            settings.set_string('timezone', timezone)
+        else:
+            raise ValueError(_('Error: timezone does not exist.'))
     else:
-        raise ValueError(_('Error: timezone does not exist.'))
+        settings = Gio.Settings('org.sugarlabs.date')
+        settings.set_string('timezone', '')
+
     return 1
 
 # inilialize the docstrings for the timezone
