@@ -27,6 +27,7 @@ from sugar3.graphics import iconentry
 
 from jarabe.desktop.activitieslist import ActivitiesList
 from jarabe.util.normalize import normalize_string
+from jarabe.model import shell
 
 _AUTOSEARCH_TIMEOUT = 1000
 
@@ -48,6 +49,8 @@ class ActivityChooser(PopWindow):
 
         self.set_size((width*3/2, height*2/3))
         self.connect('key-press-event', self.__key_press_event_cb)
+        self.connect('realize', self.__realize_cb)
+        self.connect('hide', self.__hide_cb)
         self._list_view = ActivitiesList()
 
         self.search_bar = SearchBar()
@@ -99,6 +102,12 @@ class ActivityChooser(PopWindow):
             self._row_activated_armed_path = None
 
         self.show()
+
+    def __realize_cb(self, widget):
+        shell.get_model().push_modal()
+
+    def __hide_cb(self, widget):
+        shell.get_model().pop_modal()
 
     def __toolbar_query_changed_cb(self, toolbar, query):
         self._query = normalize_string(query.decode('utf-8'))
