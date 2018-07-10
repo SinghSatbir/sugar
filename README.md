@@ -30,7 +30,7 @@ Installing on Fedora
 
 ```
 sudo dnf groupinstall sugar-desktop
-sudo dnf install python2-decorator webkitgtk3
+sudo dnf install python3-decorator webkitgtk3
 ```
 
 Then restart your computer.  At the *Sign in* select the *Sugar*

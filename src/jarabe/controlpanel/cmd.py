@@ -34,7 +34,7 @@ def cmd_help():
     """Print the help to the screen"""
     # TRANS: Translators, there's a empty line at the end of this string,
     # which must appear in the translated string (msgstr) as well.
-    print _('Usage: sugar-control-panel [ option ] key [ args ... ] \n\
+    print(_('Usage: sugar-control-panel [ option ] key [ args ... ] \n\
     Control for the sugar environment. \n\
     Options: \n\
     -h           show this help message and exit \n\
@@ -43,13 +43,13 @@ def cmd_help():
     -g key       get the current value of the key \n\
     -s key       set the current value for the key \n\
     -c key       clear the current value for the key \n\
-    ')
+    '))
 
 
 def note_restart():
     """Instructions how to restart sugar"""
-    print _('To apply your changes you have to restart Sugar.\n' +
-            'Hit ctrl+alt+erase on the keyboard to trigger a restart.')
+    print(_('To apply your changes you have to restart Sugar.\n' +
+            'Hit ctrl+alt+erase on the keyboard to trigger a restart.'))
 
 
 def load_modules():
@@ -95,21 +95,21 @@ def main():
                 if method:
                     found += 1
                     if found == 1:
-                        print method.__doc__
+                        print(method.__doc__)
                     else:
-                        print _(_same_option_warning % (key, module))
+                        print(_(_same_option_warning % (key, module)))
             if found == 0:
-                print _(_no_option_error % key)
+                print(_(_no_option_error % key))
         if option in ('-l'):
             for module in modules:
                 methods = dir(module)
-                print '%s:' % module.__name__.split('.')[1]
+                print('%s:' % module.__name__.split('.')[1])
                 for method in methods:
                     if method.startswith('get_'):
-                        print '    %s' % method[4:]
+                        print('    %s' % method[4:])
                     elif method.startswith('clear_'):
-                        print '    %s (use the -c argument with this option)' \
-                            % method[6:]
+                        print('    %s (use the -c argument with this option)' \
+                            % method[6:])
         if option in ('-g'):
             for module in modules:
                 method = getattr(module, 'print_' + key, None)
@@ -119,11 +119,11 @@ def main():
                         try:
                             method()
                         except Exception as detail:
-                            print _(_general_error % detail)
+                            print(_(_general_error % detail))
                     else:
-                        print _(_same_option_warning % (key, module))
+                        print(_(_same_option_warning % (key, module)))
             if found == 0:
-                print _(_no_option_error % key)
+                print(_(_no_option_error % key))
         if option in ('-s'):
             for module in modules:
                 method = getattr(module, 'set_' + key, None)
@@ -134,13 +134,13 @@ def main():
                         try:
                             note = method(*args)
                         except Exception as detail:
-                            print _(_general_error % detail)
+                            print(_(_general_error % detail))
                         if note == _RESTART:
                             note_restart()
                     else:
-                        print _(_same_option_warning % (key, module))
+                        print(_(_same_option_warning % (key, module)))
             if found == 0:
-                print _(_no_option_error % key)
+                print(_(_no_option_error % key))
         if option in ('-c'):
             for module in modules:
                 method = getattr(module, 'clear_' + key, None)
@@ -151,10 +151,10 @@ def main():
                         try:
                             note = method(*args)
                         except Exception as detail:
-                            print _(_general_error % detail)
+                            print(_(_general_error % detail))
                         if note == _RESTART:
                             note_restart()
                     else:
-                        print _(_same_option_warning % (key, module))
+                        print(_(_same_option_warning % (key, module)))
             if found == 0:
-                print _(_no_option_error % key)
+                print(_(_no_option_error % key))
