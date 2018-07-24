@@ -626,7 +626,7 @@ class BatchOperator(GObject.GObject):
             # this is only in the case the operation already started
             # and the user want stop it.
             self._stop_batch_execution()
-        elif hasattr(self, '_object_index') == False:
+        elif not hasattr(self, '_object_index'):
             self._object_index = 0
             GObject.idle_add(self._operate_by_uid_internal)
 
