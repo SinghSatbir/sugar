@@ -21,6 +21,7 @@ import logging
 from gi.repository import Gdk
 from gi.repository import Gtk
 from gi.repository import GObject
+from gi.repository import GLib
 
 from sugar3 import env
 from sugar3 import profile
@@ -157,8 +158,8 @@ class CurrentActivityPalette(BasePalette):
     def __stop_activate_cb(self, menu_item):
         self._home_activity.stop()
         pid = self._home_activity.get_pid()
-        GObject.timeout_add(3000, self.__kill_cb, pid, signal.SIGTERM)
-        GObject.timeout_add(4500, self.__kill_cb, pid, signal.SIGKILL)
+        GLib.timeout_add(3000, self.__kill_cb, pid, signal.SIGTERM)
+        GLib.timeout_add(4500, self.__kill_cb, pid, signal.SIGKILL)
         self.emit('done')
 
     def __kill_cb(self, pid, sig):

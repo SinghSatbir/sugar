@@ -385,7 +385,7 @@ class FavoritesView(ViewContainer):
         alert.props.title = _('Registration')
         alert.props.msg = _('Please wait, searching for your school server.')
         self._box.add_alert(alert)
-        GObject.idle_add(self.__register)
+        GLib.idle_add(self.__register)
 
     def __register(self):
         self._box.remove_alert()
@@ -431,6 +431,7 @@ class ActivityIcon(CanvasIcon):
 
         self.connect_after('activate', self.__button_activate_cb)
 
+        datastore.created.connect(self.__datastore_listener_updated_cb)
         datastore.updated.connect(self.__datastore_listener_updated_cb)
         datastore.deleted.connect(self.__datastore_listener_deleted_cb)
 

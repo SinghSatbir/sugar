@@ -54,7 +54,6 @@ gi.require_version('Wnck', '3.0')
 gi.require_version('SugarExt', '1.0')
 gi.require_version('GdkX11', '3.0')
 
-from gi.repository import GObject
 from gi.repository import Gio
 from gi.repository import GLib
 from gi.repository import Gtk
@@ -180,8 +179,8 @@ def _check_for_window_manager(screen):
 
 def __window_manager_failed_cb(fd, condition):
     logging.error('window manager did fail, restarting')
-    GObject.source_remove(_metacity_sid)
-    GObject.timeout_add(1000, _restart_window_manager)
+    GLib.source_remove(_metacity_sid)
+    GLib.timeout_add(1000, _restart_window_manager)
     return False
 
 
@@ -191,8 +190,8 @@ def _restart_window_manager():
     _metacity_process = subprocess.Popen(
         ['metacity', '--no-force-fullscreen', '--no-composite'],
         stdout=subprocess.PIPE)
-    _metacity_sid = GObject.io_add_watch(_metacity_process.stdout, GLib.IO_HUP,
-                                         __window_manager_failed_cb)
+    _metacity_sid = GLib.io_add_watch(_metacity_process.stdout, GLib.IO_HUP,
+                                      __window_manager_failed_cb)
     return False
 
 
